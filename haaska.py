@@ -82,11 +82,11 @@ class Configuration(object):
         if opts_dict is not None:
             self._json = opts_dict
 
-        self.url = self.get_url(self.get(['url', 'ha_url']))
-        self.ssl_verify = self.get(['ssl_verify', 'ha_cert'], default=True)
-        self.bearer_token = self.get(['bearer_token'], default='')
-        self.ssl_client = self.get(['ssl_client'], default='')
-        self.debug = self.get(['debug'], default=False)
+        self.url = os.environ.get("HA_URL", self.get_url(self.get(['url', 'ha_url'])))
+        self.ssl_verify = os.environ.get("SSL_VERIFY", self.get(['ssl_verify', 'ha_cert'], default=True))
+        self.bearer_token = os.environ.get("HA_TOKEN", self.get(['bearer_token'], default=''))
+        self.ssl_client = os.environ.get("SSL_CLIENT", self.get(['ssl_client'], default=''))
+        self.debug = os.environ.get("DEBUG", self.get(['debug'], default=False))
 
     def get(self, keys, default=None):
         for key in keys:
